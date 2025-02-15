@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Board</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Job Board</h1>
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#" id="postJobBtn">Post a Job</a>
+            <a href="#" id="savedJobsBtn">Saved Jobs <span id="savedJobsBadge" class="badge">0</span></a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="job-alert-banner">
+            <p><i class="fas fa-bell"></i> Get daily job alerts for your preferred roles!</p>
+            <button onclick="setupJobAlerts()">Set Up Alerts</button>
+        </div>
+
+        <section class="job-stats">
+            <div class="stat-card">
+                <h3>1,234+</h3>
+                <p>Active Jobs</p>
+            </div>
+            <div class="stat-card">
+                <h3>500+</h3>
+                <p>Companies</p>
+            </div>
+            <div class="stat-card">
+                <h3>10,000+</h3>
+                <p>Job Seekers</p>
+            </div>
+            <div class="stat-card">
+                <h3>98%</h3>
+                <p>Success Rate</p>
+            </div>
+        </section>
+
+        <section class="job-categories">
+            <div class="category-card">
+                <i class="fas fa-laptop-code"></i>
+                <h4>Technology</h4>
+                <p>1,234 jobs</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-chart-line"></i>
+                <h4>Marketing</h4>
+                <p>567 jobs</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-paint-brush"></i>
+                <h4>Design</h4>
+                <p>345 jobs</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-money-bill-wave"></i>
+                <h4>Finance</h4>
+                <p>789 jobs</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-users"></i>
+                <h4>HR</h4>
+                <p>234 jobs</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-building"></i>
+                <h4>Management</h4>
+                <p>456 jobs</p>
+            </div>
+        </section>
+
+        <section class="featured-jobs">
+            <h2><i class="fas fa-star"></i> Featured Jobs</h2>
+            <div class="jobs-container">
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search jobs...">
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="technology">Technology</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="design">Design</option>
+                    <option value="sales">Sales</option>
+                </select>
+                <select id="locationFilter">
+                    <option value="">All Locations</option>
+                    <option value="remote">Remote</option>
+                    <option value="onsite">On-site</option>
+                    <option value="hybrid">Hybrid</option>
+                </select>
+                <select id="salaryFilter">
+                    <option value="0">All Salaries</option>
+                    <option value="100000">KSH 100,000+</option>
+                    <option value="150000">KSH 150,000+</option>
+                    <option value="200000">KSH 200,000+</option>
+                    <option value="250000">KSH 250,000+</option>
+                </select>
+                <button id="searchBtn">Search</button>
+            </div>
+        </section>
+
+        <section class="company-logos">
+            <h2>Top Companies Hiring</h2>
+            <div class="logos-grid">
+                <img src="images/Amazon.png" alt="Company 1" class="company-logo">
+                
+                <img src="images/Walmart.png" alt="Company 2" class="company-logo">
+                <img src="images/IBMlogo.png" alt="Company 3" class="company-logo">
+                <img src="images/Microsoft_logo.png" alt="Company 4" class="company-logo">
+                <img src="images/Accenture_logo.png" alt="Company 5" class="company-logo">
+                <img src="images/Deloitte_Logo.png" alt="Company 6" class="company-logo">
+            </div>
+        </section>
+
+        <section class="job-tips">
+            <h2>Job Search Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>Perfect Your CV</h4>
+                    <p>Learn how to create a CV that stands out to employers.</p>
+                    <button class="learn-more-btn" ><a href="https://zety.com/blog/how-to-write-a-cv?" target="_blank" style="color: white; text-decoration: none;">Learn More</a></button>
+                </div>
+                <div class="tip-card">
+                    <h4>Interview Preparation</h4>
+                    <p>Top tips for acing your next job interview.</p>
+                    <button class="learn-more-btn" ><a href="https://magazine.eacr.org/interview-tips-from-the-experts-episode-12-of-the-cancer-researcher-podcast/?" target="_blank" style="color: white; text-decoration: none;">Learn more</a></button>
+                </div>
+                <div class="tip-card">
+                    <h4>Salary Negotiation</h4>
+                    <p>How to negotiate the best compensation package.</p>
+                    <button class="learn-more-btn" ><a href="https://zety.com/blog/how-to-write-a-cv?" target="_blank" style="color: white; text-decoration: none;">Learn more</a></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="jobs-section">
+            <h2>Available Jobs</h2>
+            <div id="jobsList" class="jobs-container">
+            </div>
+        </section>
+
+        <div id="postJobModal" class="modal">
+            <div class="modal-content post-job-modal">
+                <span class="close">&times;</span>
+                <h2>Post a New Job</h2>
+                <form id="jobPostForm" class="post-job-form">
+                    <div class="form-section full-width">
+                        <h3>Basic Information</h3>
+                        <label for="job_title">Job Title</label>
+                        <input type="text" id="job_title" name="title" placeholder="Job Title" required><br/>
+                        <label for="Company_name">Company Name</label>
+                        <input type="text" id="Company_name" name="company" placeholder="Company Name" required><br/>
+                        <select name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="technology">Technology</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="design">Design</option>
+                            <option value="sales">Sales</option>
+                        </select>
+                        <select name="location" required>
+                            <option value="">Select Location Type</option>
+                            <option value="remote">Remote</option>
+                            <option value="onsite">On-site</option>
+                            <option value="hybrid">Hybrid</option>
+                        </select>
+                    </div>
+
+                    <div class="form-section full-width">
+                        <h3>Job Details</h3>
+                        <textarea name="description" placeholder="Job Description" required></textarea>
+                        <input type="text" name="salary" placeholder="Salary Range (in KSH)" required>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Requirements</h3>
+                        <div id="requirementsList">
+                            <input type="text" name="requirements[]" placeholder="Add requirement">
+                        </div>
+                        <button type="button" onclick="addRequirement()">+ Add Requirement</button>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Benefits</h3>
+                        <div id="benefitsList">
+                            <input type="text" name="benefits[]" placeholder="Add benefit">
+                        </div>
+                        <button type="button" onclick="addBenefit()">+ Add Benefit</button>
+                    </div>
+
+                    <div class="form-section full-width">
+                        <h3>Additional Information</h3>
+                        <input type="text" name="skills" placeholder="Required Skills (comma separated)">
+                        <input type="text" name="experience" placeholder="Years of Experience">
+                        <textarea name="perks" placeholder="Additional Perks"></textarea>
+                    </div>
+
+                    <div class="full-width">
+                        <button type="submit" class="submit-btn">Post Job</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="applicationModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Job Application</h2>
+                <div class="job-header">
+                    <h3 id="applicationJobTitle"></h3>
+                    <p id="applicationCompany"></p>
+                </div>
+                <form id="applicationForm">
+                    <div class="form-group">
+                        <input type="text" name="firstName" placeholder="First Name" required>
+                        <input type="text" name="lastName" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email Address" required>
+                        <input type="tel" name="phone" placeholder="Phone Number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Resume Upload Method:</label>
+                        <select id="resumeMethod" name="resumeMethod" required>
+                            <option value="">Select Method</option>
+                            <option value="upload">Upload File</option>
+                            <option value="drive">Google Drive Link</option>
+                            <option value="manual">Enter Manually</option>
+                        </select>
+                    </div>
+
+                    <div id="resumeUpload" style="display: none;">
+                        <input type="file" name="resume" accept=".pdf,.doc,.docx">
+                    </div>
+
+                    <div id="driveLinkInput" style="display: none;">
+                        <input type="url" name="driveLink" placeholder="Google Drive Link">
+                    </div>
+
+                    <div id="manualResumeInput" style="display: none;">
+                        <textarea name="manualResume" placeholder="Enter your resume content here..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea name="coverLetter" placeholder="Cover Letter (Optional)"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="quick-apply" onclick="openQuickApply()">
+            <i class="fas fa-paper-plane"></i>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Leading job board connecting talented professionals with great companies in Kenya.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://x.com/?lang=en&mx=2" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://ke.linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/accounts/login/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Career Advice</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> info@jobboard.com</p>
+                <p><i class="fas fa-phone"></i> +254 123 456 789</p>
+                <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Subscribe to newsletter">
+                    <button type="submit">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <script type="text/JavaScript">document.write(new Date().getFullYear())</script> Job Board. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
